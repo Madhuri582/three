@@ -1,0 +1,82 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Course Selection</title>
+    <style>
+        label {
+            display: block;
+            margin-bottom: 10px;
+        }
+    </style>
+</head>
+<body>
+    <label for="course">Select a Course:</label>
+    <select id="course" onchange="addCourse()">
+        <option value="">Select Course</option>
+        <option value="Oracle">Oracle</option>
+        <option value="Java">Java</option>
+        <option value="Python">Python</option>
+        <option value=".net">.NET</option>
+    </select>
+
+    <br>
+
+    <label for="selectedCourses">Selected Courses:</label>
+    <select id="selectedCourses" onchange="updateTotalFees()"></select>
+
+    <br>
+
+    <label for="selectedCourse">Selected Course:</label>
+    <input type="text" id="selectedCourse" >
+
+    <br>
+
+    <label for="totalFees">Total Fees:</label>
+    <input type="text" id="totalFees" >
+
+    <script>
+        var fees = {
+            Oracle: 5000,
+            Java: 8000,
+            Python: 6000,
+            ".net": 9000
+        };
+
+        function addCourse() {
+            var courseSelect = document.getElementById("course");
+            var selectedCoursesSelect = document.getElementById("selectedCourses");
+            var selectedCourseInput = document.getElementById("selectedCourse");
+            var totalFeesInput = document.getElementById("totalFees");
+
+            var course = courseSelect.value;
+
+            if (course !== "") {
+                var option = document.createElement("option");
+                option.text = course;
+                selectedCoursesSelect.add(option);
+
+                selectedCourseInput.value = course;
+
+                var totalFees = parseInt(totalFeesInput.value) || 0;
+                totalFees += fees[course];
+                totalFeesInput.value = totalFees;
+            }
+        }
+
+        function updateTotalFees() {
+            var selectedCoursesSelect = document.getElementById("selectedCourses");
+            var totalFeesInput = document.getElementById("totalFees");
+
+            var course = selectedCoursesSelect.value;
+            var totalFees = parseInt(totalFeesInput.value) || 0;
+
+            if (course !== "") {
+                totalFees -= fees[course];
+                selectedCoursesSelect.remove(selectedCoursesSelect.selectedIndex);
+            }
+
+            totalFeesInput.value = totalFees;
+        }
+    </script>
+</body>
+</html>
